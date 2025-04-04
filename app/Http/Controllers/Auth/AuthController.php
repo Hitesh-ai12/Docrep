@@ -69,8 +69,8 @@ class AuthController extends Controller
      public function login(Request $request)
      {
          $request->validate([
-             'username' => 'required|string',
-             'password' => 'required|string'
+             'username' => 'required',
+             'password' => 'required'
          ]);
 
          $user = User::where('username', $request->username)->first();
@@ -78,14 +78,14 @@ class AuthController extends Controller
          if (!$user) {
              return response()->json([
                  'success' => false,
-                 'message' => 'User not found. Please register first.'
+                 'message' => 'User not found'
              ], 404);
          }
 
          if (!Hash::check($request->password, $user->password)) {
              return response()->json([
                  'success' => false,
-                 'message' => 'Incorrect password. Please try again.'
+                 'message' => 'Invalid credentials'
              ], 401);
          }
 
