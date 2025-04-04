@@ -10,3 +10,9 @@ Route::get('/user', function (Request $request) {
 Route::post('/select-account', [AuthController::class, 'selectAccount']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/doctors', [AuthController::class, 'getAllDoctors']);
