@@ -70,29 +70,21 @@ class AuthController extends Controller
      {
          $request->validate([
              'username' => 'required',
-             'password' => 'required'
+             'password' => 'required',
+             'role' => 'required' // Role bhi required hai
          ]);
 
-         $user = User::where('username', $request->username)->first();
+         $user = User::where('username', $request->username)
+                     ->where('role', $request->role) // Role check karein
+                     ->first();
 
-         if (!$user) {
-             return response()->json([
-                 'success' => false,
-                 'message' => 'User not found'
-             ], 404);
-         }
-
-         if (!Hash::check($request->password, $user->password)) {
-             return response()->json([
-                 'success' => false,
-                 'message' => 'Invalid credentials'
-             ], 401);
+         if (!$user || !Hash::check($request->password, $user->password)) {
+             return response()->json(['error' => 'Invalid credentials or role mismatch'], 401);
          }
 
          $token = $user->createToken('auth_token')->plainTextToken;
 
          return response()->json([
-             'success' => true,
              'message' => 'Login successful',
              'user' => $user,
              'token' => $token
