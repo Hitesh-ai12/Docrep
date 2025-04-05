@@ -16,3 +16,5 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/doctors', [AuthController::class, 'getAllDoctors']);
+Route::middleware('auth:sanctum')->get('/doctor/{id}', [AuthController::class, 'getDoctorById']);
+Route::middleware('auth:sanctum')->post('/update-profile', [AuthController::class, 'updateProfile']);

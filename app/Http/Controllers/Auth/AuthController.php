@@ -185,4 +185,56 @@ class AuthController extends Controller
             ], 200);
         }
 
+        public function getDoctorById($id)
+        {
+            $doctor = User::where('id', $id)->where('role', 'doctor')->first();
+
+            if (!$doctor) {
+                return response()->json(['error' => 'Doctor not found'], 404);
+            }
+
+            return response()->json([
+                'message' => 'Doctor details fetched successfully',
+                'doctor' => $doctor
+            ]);
+        }
+
+        public function updateProfile(Request $request)
+        {
+            $user = auth()->user();
+
+            $request->validate([
+                'phone_number' => 'nullable|string',
+                'email' => 'nullable|email',
+                'hospital_name' => 'nullable|string',
+                'hospital_location' => 'nullable|string',
+                'designation' => 'nullable|string',
+                'years_of_experience' => 'nullable|string',
+                'dob' => 'nullable|date',
+                'wedding_date' => 'nullable|string',
+                'location' => 'nullable|string',
+                'current_work_availability' => 'nullable|string',
+                'preferred_consultation_method' => 'nullable|string|in:Online Only,In-Person Only,Both',
+            ]);
+
+            $user->update($request->only([
+                'phone_number',
+                'email',
+                'hospital_name',
+                'hospital_location',
+                'designation',
+                'years_of_experience',
+                'dob',
+                'wedding_date',
+                'location',
+                'current_work_availability',
+                'preferred_consultation_method',
+            ]));
+
+            return response()->json([
+                'message' => 'Profile updated successfully',
+                'user' => $user
+            ]);
+        }
+
 }
