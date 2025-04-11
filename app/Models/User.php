@@ -18,6 +18,8 @@ class User extends Authenticatable
         'designation',
         'years_of_experience',
         'dob',
+        
+        
         'wedding_date',
         'location',
         'current_work_availability',
