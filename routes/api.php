@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\PlanController;
+use App\Http\Controllers\API\CategoryController;
 
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -35,4 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // ✅ Your Plans API
     Route::get('/plans', [PlanController::class, 'index']);
+
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+
 });
