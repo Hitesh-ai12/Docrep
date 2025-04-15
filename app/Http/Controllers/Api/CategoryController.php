@@ -59,5 +59,50 @@ class CategoryController extends Controller
         ]);
     }
 
+    // Cate Update api
+    public function update(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['admin', 'doctor'])) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $category = Category::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found.'], 404);
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+        ]);
+
+        $category->update(['name' => $request->name]);
+
+        return response()->json([
+            'message' => 'Category updated successfully.',
+            'data' => $category,
+        ]);
+    }
+    // cat delete api
+    public function destroy($id)
+    {
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['admin', 'doctor'])) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        $category = Category::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$category) {
+            return response()->json(['message' => 'Category not found.'], 404);
+        }
+
+        $category->delete();
+
+        return response()->json(['message' => 'Category deleted successfully.']);
+    }
 }
 
