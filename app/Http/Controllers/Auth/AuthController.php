@@ -201,17 +201,20 @@ class AuthController extends Controller
                 'doctor' => $doctor
             ]);
         }
-
-        public function getMedicalRepresentatives()
+        public function getMedicalRepresentatives($id)
         {
-            $representatives = User::where('role', 'medical_representative')->get();
+            $medical_representative = User::where('id', $id)->where('role', 'medical_representative')->first();
+
+            if (!$medical_representative) {
+                return response()->json(['error' => 'Doctor not found'], 404);
+            }
 
             return response()->json([
-                'status' => true,
-                'count' => $representatives->count(),
-                'data' => $representatives
-            ], 200);
+                'message' => 'Mr details fetched successfully',
+                'mr' => $medical_representative
+            ]);
         }
+
 
         public function updateProfile(Request $request)
         {
