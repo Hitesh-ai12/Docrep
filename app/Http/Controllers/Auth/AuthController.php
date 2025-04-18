@@ -71,11 +71,11 @@ class AuthController extends Controller
          $request->validate([
              'username' => 'required',
              'password' => 'required',
-             'role' => 'required' // Role bhi required hai
+             'role' => 'required'
          ]);
 
          $user = User::where('username', $request->username)
-                     ->where('role', $request->role) // Role check karein
+                     ->where('role', $request->role)
                      ->first();
 
          if (!$user || !Hash::check($request->password, $user->password)) {
@@ -141,6 +141,8 @@ class AuthController extends Controller
 
             return response()->json(['message' => 'OTP verified successfully'], 200);
         }
+
+
         public function resetPassword(Request $request)
         {
             $request->validate([
@@ -166,6 +168,7 @@ class AuthController extends Controller
 
             return response()->json(['message' => 'Password reset successfully'], 200);
         }
+
         public function getAllDoctors(Request $request)
         {
             // Get all users with role 'doctor'
@@ -197,6 +200,17 @@ class AuthController extends Controller
                 'message' => 'Doctor details fetched successfully',
                 'doctor' => $doctor
             ]);
+        }
+
+        public function getMedicalRepresentatives()
+        {
+            $representatives = User::where('role', 'medical_representative')->get();
+
+            return response()->json([
+                'status' => true,
+                'count' => $representatives->count(),
+                'data' => $representatives
+            ], 200);
         }
 
         public function updateProfile(Request $request)

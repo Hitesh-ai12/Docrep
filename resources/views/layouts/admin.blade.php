@@ -9,7 +9,6 @@
     <style>
         .form-control {
             display: block;
-            /* width: 100%; */
             padding: .375rem .75rem;
             font-size: 1.2rem;
             font-weight: 500;
@@ -89,7 +88,6 @@
             background-color: #00d2c3;
             color: white;
             padding: 20px 15px;
-            /* border-top-right-radius: 20px; */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
