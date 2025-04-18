@@ -201,20 +201,43 @@ class AuthController extends Controller
                 'doctor' => $doctor
             ]);
         }
-        public function getMedicalRepresentatives($id)
-        {
-            $medical_representative = User::where('id', $id)->where('role', 'medical_representative')->first();
 
-            if (!$medical_representative) {
-                return response()->json(['error' => 'Doctor not found'], 404);
+        // GET single medical representative by ID
+        public function getMedicalRepresentativeById($id)
+        {
+            $mr = User::where('id', $id)->where('role', 'medical_representative')->first();
+
+            if (!$mr) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Medical Representative not found'
+                ], 404);
             }
 
             return response()->json([
-                'message' => 'Mr details fetched successfully',
-                'mr' => $medical_representative
+                'success' => true,
+                'message' => 'Medical Representative details fetched successfully',
+                'data' => $mr
             ]);
         }
 
+        public function getAllMedicalRepresentatives(Request $request)
+        {
+            $medicalReps = User::where('role', 'medical_representative')->get();
+
+            if ($medicalReps->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No Medical Representatives found.'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Medical Representatives fetched successfully.',
+                'data' => $medicalReps
+            ], 200);
+        }
 
         public function updateProfile(Request $request)
         {

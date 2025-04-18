@@ -32,7 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', fn(Request $request) => $request->user());
     Route::get('/doctors', [AuthController::class, 'getAllDoctors']);
     Route::get('/doctor/{id}', [AuthController::class, 'getDoctorById']);
-    Route::get('/medical-representatives', [AuthController::class, 'getMedicalRepresentatives']);
+    Route::get('/medical-representatives', [AuthController::class, 'getAllMedicalRepresentatives']);
+    Route::get('/medical-representative/{id}', [AuthController::class, 'getMedicalRepresentativeById']);
 
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
 
