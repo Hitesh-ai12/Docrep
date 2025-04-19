@@ -36,6 +36,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/medical-representative/{id}', [AuthController::class, 'getMedicalRepresentativeById']);
 
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('/profile/photo', [AuthController::class, 'updateProfilePhoto']);
+    Route::delete('/profile/photo', [AuthController::class, 'removeProfilePhoto']);
 
     // ✅ Your Plans API
     Route::get('/plans', [PlanController::class, 'index']);

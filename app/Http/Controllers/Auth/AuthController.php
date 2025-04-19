@@ -276,5 +276,45 @@ class AuthController extends Controller
                 'user' => $user
             ]);
         }
+        public function updateProfilePhoto(Request $request)
+        {
+            $user = auth()->user();
+
+            $request->validate([
+                'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ]);
+
+            // Delete old photo if exists
+            if ($user->profile_photo && file_exists(public_path('uploads/profile_photos/' . $user->profile_photo))) {
+                unlink(public_path('uploads/profile_photos/' . $user->profile_photo));
+            }
+
+            $file = $request->file('profile_photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/profile_photos'), $filename);
+
+            $user->profile_photo = $filename;
+            $user->save();
+
+            return response()->json([
+                'message' => 'Profile photo updated successfully',
+                'profile_photo_url' => url('uploads/profile_photos/' . $filename),
+            ]);
+        }
+        public function removeProfilePhoto()
+        {
+            $user = auth()->user();
+
+            if ($user->profile_photo && file_exists(public_path('uploads/profile_photos/' . $user->profile_photo))) {
+                unlink(public_path('uploads/profile_photos/' . $user->profile_photo));
+            }
+
+            $user->profile_photo = null;
+            $user->save();
+
+            return response()->json([
+                'message' => 'Profile photo removed successfully',
+            ]);
+        }
 
 }
