@@ -105,5 +105,43 @@ class DoctorRepController extends Controller
         ]);
     }
 
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'designation' => 'nullable|string|max:255',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Handle profile photo if uploaded
+        if ($request->hasFile('profile_photo')) {
+            // Delete old photo if exists
+            if ($user->profile_photo && file_exists(public_path('uploads/profile_photos/' . $user->profile_photo))) {
+                unlink(public_path('uploads/profile_photos/' . $user->profile_photo));
+            }
+
+            $file = $request->file('profile_photo');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('uploads/profile_photos'), $filename);
+
+            $user->profile_photo = $filename;
+        }
+
+        // Update name and designation
+        $user->name = $request->name;
+        $user->designation = $request->designation;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profile updated successfully.',
+            'user' => $user,
+            'profile_photo_url' => $user->profile_photo
+                ? url('uploads/profile_photos/' . $user->profile_photo)
+                : null
+        ]);
+    }
+
 
 }

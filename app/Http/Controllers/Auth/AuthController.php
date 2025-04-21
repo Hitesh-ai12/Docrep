@@ -331,24 +331,6 @@ class AuthController extends Controller
                 'message' => $url ? 'Profile photo retrieved successfully.' : 'No profile photo found.'
             ]);
         }
-        public function updateNameAndDesignation(Request $request)
-        {
-            $user = auth()->user();
 
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'designation' => 'nullable|string|max:255',
-            ]);
-
-            $user->update([
-                'name' => $request->name,
-                'designation' => $request->designation,
-            ]);
-
-            return response()->json([
-                'message' => 'Name and Designation updated successfully.',
-                'user' => $user
-            ]);
-        }
 
 }
