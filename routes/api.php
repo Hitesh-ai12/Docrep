@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\DoctorRepController;
+
 
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -41,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile/photo', [AuthController::class, 'getProfilePhoto']);
     Route::post('/update-name-designation', [AuthController::class, 'updateNameAndDesignation']);
 
+    Route::post('/doctor/rep-action', [DoctorRepController::class, 'repAction']);
     // ✅ Your Plans API
     Route::get('/plans', [PlanController::class, 'index']);
 
@@ -49,4 +52,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/categories/{id}', [CategoryController::class, 'update']);
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
 
+
+    Route::post('/doctor/assign-slot', [DoctorRepController::class, 'assignSlot']);
+    Route::get('/doctor/slots-by-date', [DoctorRepController::class, 'getSlotsByDate']);
 });
