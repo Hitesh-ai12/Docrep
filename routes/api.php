@@ -38,6 +38,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
     Route::post('/profile/photo', [AuthController::class, 'updateProfilePhoto']);
     Route::delete('/profile/photo', [AuthController::class, 'removeProfilePhoto']);
+    Route::get('/profile/photo', [AuthController::class, 'getProfilePhoto']);
+    Route::post('/update-name-designation', [AuthController::class, 'updateNameAndDesignation']);
 
     // ✅ Your Plans API
     Route::get('/plans', [PlanController::class, 'index']);
