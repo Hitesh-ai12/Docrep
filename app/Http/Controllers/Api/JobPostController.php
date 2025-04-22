@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JobPost;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
-class JobController extends Controller
+class JobPostController extends Controller
 {
     public function store(Request $request)
     {
@@ -47,5 +49,4 @@ class JobController extends Controller
         $jobs = JobPost::latest()->get();
         return response()->json($jobs);
     }
-
 }
