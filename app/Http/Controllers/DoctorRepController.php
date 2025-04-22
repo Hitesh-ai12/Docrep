@@ -79,7 +79,6 @@ class DoctorRepController extends Controller
 
         $doctor = auth()->user();
 
-        // Ensure only doctors can access this
         if ($doctor->role !== 'doctor') {
             return response()->json(['message' => 'Unauthorized.'], 403);
         }
@@ -115,9 +114,8 @@ class DoctorRepController extends Controller
             'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle profile photo if uploaded
         if ($request->hasFile('profile_photo')) {
-            // Delete old photo if exists
+
             if ($user->profile_photo && file_exists(public_path('uploads/profile_photos/' . $user->profile_photo))) {
                 unlink(public_path('uploads/profile_photos/' . $user->profile_photo));
             }

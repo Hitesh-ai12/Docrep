@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\DoctorRepController;
+use App\Http\Controllers\Api\JobPostController;
 
 
 Route::prefix('admin')->group(function () {
@@ -56,4 +57,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/doctor/assign-slot', [DoctorRepController::class, 'assignSlot']);
     Route::get('/doctor/slots-by-date', [DoctorRepController::class, 'getSlotsByDate']);
+    Route::post('/jobs', [JobPostController::class, 'store']); // For doctors to post job
+    Route::get('/jobs', [JobPostController::class, 'index']);   // Optional: Get all jobs
 });
