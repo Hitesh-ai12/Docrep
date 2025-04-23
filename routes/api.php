@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
 
-    Route::post('/update-mr-profile', [AuthController::class, 'updateMrProfile']);
+    Route::post('/mr/update-profile', [AuthController::class, 'updateMrProfile']);
     Route::post('/profile/photo', [AuthController::class, 'updateProfilePhoto']);
     Route::delete('/profile/photo', [AuthController::class, 'removeProfilePhoto']);
     Route::get('/profile/photo', [AuthController::class, 'getProfilePhoto']);
@@ -59,8 +59,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/doctor/assign-slot', [DoctorRepController::class, 'assignSlot']);
     Route::get('/doctor/slots-by-date', [DoctorRepController::class, 'getSlotsByDate']);
-    Route::post('/jobs', [JobPostController::class, 'store']); // For doctors to post job
-    Route::get('/jobs', [JobPostController::class, 'index']);   // Optional: Get all jobs
+    Route::post('/jobs', [JobPostController::class, 'store']);
+    Route::get('/jobs', [JobPostController::class, 'index']); // All jobs
+    Route::get('/jobs/{id}', [JobPostController::class, 'show']); // Single job by ID
+    Route::get('/search/jobs', [JobPostController::class, 'search']); // Search jobs
+
 
     Route::post('/documents/upload', [DocumentController::class, 'upload']);
     Route::get('/documents', [DocumentController::class, 'index']);

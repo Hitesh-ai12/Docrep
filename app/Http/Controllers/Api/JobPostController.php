@@ -45,7 +45,50 @@ class JobPostController extends Controller
 
     public function index()
     {
-        $jobs = JobPost::latest()->get();
-        return response()->json($jobs);
+        $jobs = Job::with('user')->latest()->get();
+
+        return response()->json([
+            'message' => 'All jobs fetched successfully.',
+            'jobs' => $jobs
+        ]);
     }
+    public function show($id)
+    {
+        $job = Job::with('user')->find($id);
+
+        if (!$job) {
+            return response()->json([
+                'message' => 'Job not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'message' => 'Job fetched successfully.',
+            'job' => $job
+        ]);
+    }
+    public function search(Request $request)
+    {
+        $query = Job::query();
+
+        if ($request->has('industry')) {
+            $query->where('industry', 'LIKE', '%' . $request->industry . '%');
+        }
+
+        if ($request->has('job_title')) {
+            $query->where('job_title', 'LIKE', '%' . $request->job_title . '%');
+        }
+
+        if ($request->has('city')) {
+            $query->where('city', 'LIKE', '%' . $request->city . '%');
+        }
+
+        $results = $query->latest()->get();
+
+        return response()->json([
+            'message' => 'Search completed.',
+            'results' => $results
+        ]);
+    }
+
 }
