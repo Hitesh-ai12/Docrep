@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\PlanController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\DoctorRepController;
 use App\Http\Controllers\Api\JobPostController;
-
+use App\Http\Controllers\Api\DocumentController;
 
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/medical-representative/{id}', [AuthController::class, 'getMedicalRepresentativeById']);
 
     Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+
+    Route::post('/update-mr-profile', [AuthController::class, 'updateMrProfile']);
     Route::post('/profile/photo', [AuthController::class, 'updateProfilePhoto']);
     Route::delete('/profile/photo', [AuthController::class, 'removeProfilePhoto']);
     Route::get('/profile/photo', [AuthController::class, 'getProfilePhoto']);
@@ -59,4 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/doctor/slots-by-date', [DoctorRepController::class, 'getSlotsByDate']);
     Route::post('/jobs', [JobPostController::class, 'store']); // For doctors to post job
     Route::get('/jobs', [JobPostController::class, 'index']);   // Optional: Get all jobs
+
+    Route::post('/documents/upload', [DocumentController::class, 'upload']);
+    Route::get('/documents', [DocumentController::class, 'index']);
+
 });

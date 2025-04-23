@@ -332,5 +332,38 @@ class AuthController extends Controller
             ]);
         }
 
+        public function updateMrProfile(Request $request)
+        {
+            $user = auth()->user();
+
+            if ($user->role !== 'medical_representative') {
+                return response()->json(['message' => 'Unauthorized'], 403);
+            }
+
+            $request->validate([
+                'phone_number' => 'nullable|string',
+                'email' => 'nullable|email',
+                'company_name' => 'nullable|string',
+                'designation' => 'nullable|string',
+                'target_specializations' => 'nullable|string',
+                'years_of_experience' => 'nullable|string',
+                'location' => 'nullable|string',
+            ]);
+
+            $user->update([
+                'phone_number' => $request->phone_number,
+                'email' => $request->email,
+                'company_name' => $request->company_name,
+                'designation' => $request->designation,
+                'target_specializations' => $request->target_specializations,
+                'years_of_experience' => $request->years_of_experience,
+                'location' => $request->location,
+            ]);
+
+            return response()->json([
+                'message' => 'MR profile updated successfully',
+                'user' => $user
+            ]);
+        }
 
 }
