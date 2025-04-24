@@ -48,8 +48,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile/update', [DoctorRepController::class, 'updateProfile']);
 
     Route::post('/doctor/rep-action', [DoctorRepController::class, 'repAction']);
+
     // ✅ Your Plans API
     Route::get('/plans', [PlanController::class, 'index']);
+    Route::get('/plans/{id}', [PlanController::class, 'getPlanById']);
 
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::get('/categories', [CategoryController::class, 'index']);
@@ -60,9 +62,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/doctor/assign-slot', [DoctorRepController::class, 'assignSlot']);
     Route::get('/doctor/slots-by-date', [DoctorRepController::class, 'getSlotsByDate']);
     Route::post('/jobs', [JobPostController::class, 'store']);
-    Route::get('/jobs', [JobPostController::class, 'index']); // All jobs
-    Route::get('/jobs/{id}', [JobPostController::class, 'show']); // Single job by ID
-    Route::get('/search/jobs', [JobPostController::class, 'search']); // Search jobs
+    Route::get('/jobs', [JobPostController::class, 'index']);
+    Route::get('/jobs/{id}', [JobPostController::class, 'show']);
+    Route::get('/search/jobs', [JobPostController::class, 'search']);
 
 
     Route::post('/documents/upload', [DocumentController::class, 'upload']);

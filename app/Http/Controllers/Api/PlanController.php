@@ -18,4 +18,18 @@ class PlanController extends Controller
             'data' => $plans
         ]);
     }
+    public function getPlanById($id)
+    {
+        $plan = Plan::find($id);
+
+        if (!$plan) {
+            return response()->json([
+                'message' => 'Plan not found.'
+            ], 404);
+        }
+
+        return response()->json([
+            'plan' => $plan
+        ]);
+    }
 }
